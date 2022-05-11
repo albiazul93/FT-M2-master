@@ -1,5 +1,6 @@
 // Crear un array vacío llamado 'toDoItems'
 // Tu codigo acá:
+var toDoItems = [];
 
 
 // En la página 'index.html' hay un elemento span cuyo texto es 'Aplicación creada por:'.
@@ -7,6 +8,9 @@
 // agregar tu nombre al final del texto actual. Ej: 'Aplicación creada por Franco'
 // Tu código acá:
 
+var nombre = 'Daniel'
+var acp = document.querySelector('#createdBy')
+acp.innerHTML = acp.innerHTML + ' ' + nombre;
 
 
 // Crear una clase denominada 'ToDo' cuyo constructor debe recibir un único parámetro del tipo string
@@ -16,8 +20,10 @@
 // 2) 'complete'    : debe setearse en false
 // Ayuda: usar 'this' en el constructor
 
-function ToDo () {
+function ToDo(description) {
   // Tu código acá:
+  this.description = description;
+  this.complete = false;
 
 }
 
@@ -27,6 +33,9 @@ function ToDo () {
 // Debe setear el atributo 'complete' del ToDo en true
 
 // Tu código acá:
+ToDo.prototype.completeToDo = function () {
+  this.complete = true;
+}
 
 
 
@@ -50,6 +59,17 @@ function ToDo () {
 
 function buildToDo(todo, index) {
   // Tu código acá:
+  var toDoShell = document.createElement('div');
+  toDoShell.setAttribute('class', 'toDoShell');
+  var toDoText = document.createElement('span');
+  toDoText.innerHTML = todo.description;
+  toDoText.setAttribute('id', index);
+  if (todo.complete) {
+    toDoText.setAttribute('class', 'completeText');
+  }
+  toDoShell.appendChild(toDoText);
+  return toDoShell;
+
 
 }
 
@@ -60,6 +80,12 @@ function buildToDo(todo, index) {
 
 function buildToDos(toDos) {
   // Tu código acá:
+  var arr = [];
+  arr = toDos.map(function (descIdx, comTxt) {
+    return buildToDo(descIdx, comTxt)
+  })
+  return arr;
+
 
 }
 
@@ -75,6 +101,12 @@ function buildToDos(toDos) {
 
 function displayToDos() {
   // Tu código acá:
+  let toDoContainer = document.querySelector('#toDoContainer');
+  toDoContainer.innerHTML = "";
+
+  buildToDos(toDoItems).forEach(element => {
+    toDoContainer.appendChild(element)
+  });
 
 }
 
@@ -88,8 +120,25 @@ function displayToDos() {
 //  3) Setear el valor del input toDoInput como un string vacio ("") (Esto se realiza para que en la vista se borre lo que se encontraba escrito)
 //  4) Llamar a la función displayToDos para que se actualicen los toDos mostrados en pantalla
 
-function addToDo() {
+function addToDo(toDoInput) {
   // Tu código acá:
+  // let input = document.getElementById('toDoInput')
+  // let newTodo = new ToDo(input.value);
+  // toDoItems.push(newTodo);
+  // input.value = " ";
+  // displayToDos();
+
+  // Accedo al valor del input y lo guardo en una variable
+  let valor = document.getElementById('toDoInput').value;
+  // Consigna 1
+  let newTodo = new ToDo(valor);
+  // Consigna 2
+  toDoItems.push(newTodo);
+  // Consigna 3
+  let input = document.getElementById('toDoInput');
+  input.value = '';
+  // Consigna 4
+  displayToDos();
 
 }
 
@@ -140,6 +189,7 @@ function completeToDo(event) {
 
 
 // ---------------------------- NO CAMBIES NADA DE ACÁ PARA ABAJO ----------------------------- //
+console.log(displayToDos())
 if (typeof module !== 'undefined') {
   module.exports = {
     toDoItems: toDoItems,
