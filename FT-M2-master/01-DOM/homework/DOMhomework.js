@@ -8,9 +8,9 @@ var toDoItems = [];
 // agregar tu nombre al final del texto actual. Ej: 'Aplicación creada por Franco'
 // Tu código acá:
 
-var nombre = 'Daniel'
-var acp = document.querySelector('#createdBy')
-acp.innerHTML = acp.innerHTML + ' ' + nombre;
+document.querySelector("#createdBy").innerHTML = document
+  .querySelector("#createdBy")
+  .innerHTML.concat(" Daniel");
 
 
 // Crear una clase denominada 'ToDo' cuyo constructor debe recibir un único parámetro del tipo string
@@ -59,17 +59,25 @@ ToDo.prototype.completeToDo = function () {
 
 function buildToDo(todo, index) {
   // Tu código acá:
-  let toDoShell = document.createElement('div');
-  toDoShell.setAttribute('class', 'toDoShell');
-  let toDoText = document.createElement('span');
+  let toDoShell = document.createElement("div"),
+    toDoText = document.createElement("span"),
+    checkbox = document.createElement("input");
+
+  checkbox.type = "checkbox";
+  checkbox.id = index;
+  checkbox.onclick = completeToDo;
+
+  toDoShell.className = "toDoShell";
   toDoText.innerHTML = todo.description;
-  toDoText.setAttribute('id', index);
+
   if (todo.complete) {
-    toDoText.setAttribute('class', 'completeText');
+    checkbox.className = "completeCheckbox";
+    checkbox.setAttribute("checked", "true");
   }
-  toDoText.addEventListener('click', completeToDo);
+
   toDoShell.appendChild(toDoText);
-  toDoText.onclick = completeToDo;
+  toDoShell.appendChild(checkbox);
+
   return toDoShell;
 
 }
@@ -81,11 +89,9 @@ function buildToDo(todo, index) {
 
 function buildToDos(toDos) {
   // Tu código acá:
-  var arr = [];
-  arr = toDos.map(function (descIdx, comTxt) {
-    return buildToDo(descIdx, comTxt)
-  })
-  return arr;
+  return toDos.map(function (item, idx) {
+    return buildToDo(item, idx);
+  });
 
 }
 
@@ -104,8 +110,8 @@ function displayToDos() {
   let toDoContainer = document.querySelector('#toDoContainer');
   toDoContainer.innerHTML = "";
 
-  buildToDos(toDoItems).forEach(element => {
-    toDoContainer.appendChild(element)
+  buildToDos(toDoItems).forEach(function (todo) {
+    toDoContainer.appendChild(todo);
   });
 
 }
@@ -128,16 +134,12 @@ function addToDo(toDoInput) {
   // input.value = " ";
   // displayToDos();
 
-  // Accedo al valor del input y lo guardo en una variable
-  let valor = document.getElementById('toDoInput').value;
-  // Consigna 1
-  let newTodo = new ToDo(valor);
-  // Consigna 2
-  toDoItems.push(newTodo);
-  // Consigna 3
-  let input = document.getElementById('toDoInput');
-  input.value = '';
-  // Consigna 4
+  let input = document.getElementById("toDoInput");
+
+  let newToDo = new ToDo(input.value);
+  toDoItems.push(newToDo);
+  input.value = "";
+
   displayToDos();
 
 }
@@ -168,7 +170,7 @@ function completeToDo(event) {
   // DESCOMENTAR LA SIGUIENTE LINEA
   const index = event.target.id;
   // Tu código acá:
-  toDoItems[index].completeToDo;
+  toDoItems[index].completeToDo();
   displayToDos();
 
 }
