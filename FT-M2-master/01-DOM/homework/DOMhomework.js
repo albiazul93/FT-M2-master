@@ -59,17 +59,18 @@ ToDo.prototype.completeToDo = function () {
 
 function buildToDo(todo, index) {
   // Tu código acá:
-  var toDoShell = document.createElement('div');
+  let toDoShell = document.createElement('div');
   toDoShell.setAttribute('class', 'toDoShell');
-  var toDoText = document.createElement('span');
+  let toDoText = document.createElement('span');
   toDoText.innerHTML = todo.description;
   toDoText.setAttribute('id', index);
   if (todo.complete) {
     toDoText.setAttribute('class', 'completeText');
   }
+  toDoText.addEventListener('click', completeToDo);
   toDoShell.appendChild(toDoText);
+  toDoText.onclick = completeToDo;
   return toDoShell;
-
 
 }
 
@@ -85,7 +86,6 @@ function buildToDos(toDos) {
     return buildToDo(descIdx, comTxt)
   })
   return arr;
-
 
 }
 
@@ -148,6 +148,8 @@ function addToDo(toDoInput) {
 //   2) Agregarle un 'click' event listener, pasándole la función 'addToDo' como callback
 
 // Tu código acá:
+let btnAgregar = document.getElementById('addButton');
+btnAgregar.addEventListener('click', addToDo);
 
 
 // La función completeToDo se va a ejecutar cuando queramos completar un todo
@@ -164,8 +166,10 @@ function addToDo(toDoInput) {
 
 function completeToDo(event) {
   // DESCOMENTAR LA SIGUIENTE LINEA
-  // const index = event.target.id;
+  const index = event.target.id;
   // Tu código acá:
+  toDoItems[index].completeToDo;
+  displayToDos();
 
 }
 
@@ -186,6 +190,7 @@ function completeToDo(event) {
 
 
 // Acá debes insertar la llamada a 'displayToDos'
+displayToDos();
 
 
 // ---------------------------- NO CAMBIES NADA DE ACÁ PARA ABAJO ----------------------------- //
